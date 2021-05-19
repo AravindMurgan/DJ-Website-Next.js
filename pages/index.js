@@ -1,6 +1,7 @@
 import Layout from '../components/Layout'
 import {API_URL} from '@/config/index'
 import EventsItem from '@/components/EventsItem';
+import Link from 'next/link';
 
 
 export default function Home({events}) {
@@ -13,6 +14,10 @@ export default function Home({events}) {
         <EventsItem key={evt.id} evt={evt} />
       ))}
       
+      {events.length > 0 && <Link href='/events' >
+        <a className='btn-secondary' >View All</a>
+      </Link>}
+
     </Layout>
   )
 }
@@ -22,7 +27,7 @@ export async function getStaticProps(){
     const events = await res.json()
 
     return {
-      props: {events},
+      props: {events:events.slice(0,3)},
       revalidate:1
     }
 
