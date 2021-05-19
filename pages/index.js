@@ -10,6 +10,7 @@ export default function Home({events}) {
       {events.map(evt=>(
         <h3 key={evt.id} >{evt.name} </h3>
       ))}
+      
     </Layout>
   )
 }
