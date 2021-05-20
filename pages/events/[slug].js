@@ -3,7 +3,7 @@ import { API_URL } from '@/config/index';
 
 export default function EventPage({ evt }) {
 	console.log(evt);
-	return (
+	return ( 
 		<Layout>
 			<h3>{evt.name}</h3>
 			<p>test</p>
@@ -15,14 +15,14 @@ export async function getStaticPaths(){
     const res = await fetch(`${API_URL}/api/events`)
     const events = await res.json()
 
-    const path = events.map(evt =>({
+    const paths = events.map(evt =>({
         params: {slug: evt.slug}
     }) )
 
     return {
-        path,
+        paths,
         fallback: true
-    }
+    } 
 }
 
 export async function getStaticProps({ params: { slug } }) {
