@@ -1,8 +1,11 @@
 import EventsItem from '@/components/EventsItem';
 import Layout from '@/components/Layout';
 import { API_URL } from '@/config/index';
+import { useRouter } from 'next/router';
 
 export default function EventsPage({ events }) {
+	const router = useRouter()
+	console.log(router);
 	return (
 		<Layout>
 			<h1> Events</h1>

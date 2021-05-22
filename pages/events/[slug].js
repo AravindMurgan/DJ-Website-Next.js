@@ -3,8 +3,13 @@ import { API_URL } from '@/config/index';
 import styles from '@/styles/Event.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+
 
 export default function EventPage({ evt }) {
+	const router = useRouter()
+	console.log(router);
+
 	return (
 		<Layout>
 			<div className={styles.event}>
