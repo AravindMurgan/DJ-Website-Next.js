@@ -46,6 +46,17 @@ export default function AddEventpage() {
 							onChange={handleInputChange}
 						/>
 					</div>
+
+					<div>
+						<label htmlFor='name'>Event Name</label>
+						<input 
+							type='text'
+							id='name'
+							name='name'
+							value={values.name}
+							onChange={handleInputChange}
+						/>
+					</div>
 				</div>
 			</form>
 		</Layout>
