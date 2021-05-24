@@ -1,4 +1,5 @@
 import Layout from '@/components/Layout';
+import { API_URL } from '@/config/index';
 import styles from '@/styles/Form.module.css';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -40,7 +41,7 @@ export default function AddEventpage() {
 			const evt = await res.json()
 			router.push(`/events/${evt.slug}`)
 		}
-		
+		console.log(evt);
 	};
 
 	const handleInputChange = (e) => {
