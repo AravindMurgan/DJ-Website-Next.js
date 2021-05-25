@@ -6,16 +6,18 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import moment from 'moment'
 
-export default function AddEventpage() {
+export default function EditEventpage({evt}) {
+  
 	const [values, setValue] = useState({
-		name: '',
-		performers: '',
-		venue: '',
-		address: '',
-		date: '',
-		time: '',
-		description: '',
+		name:evt.name ,
+		performers: evt.performers,
+		venue: evt.venue,
+		address: evt.address,
+		date: evt.data,
+		time: evt.time,
+		description: evt.description,
 	});
 	const router = useRouter();
 
@@ -27,8 +29,8 @@ export default function AddEventpage() {
 			toast.error('Please fill all Fields')
 		}
 
-		const res = await fetch(`${API_URL}/events/`,{
-			method:'POST',
+		const res = await fetch(`${API_URL}/events/${evt.id}`,{
+			method:'PUT',
 			headers:{
 				'Content-Type':'application/json'
 			},
@@ -51,7 +53,7 @@ export default function AddEventpage() {
 		});
 	};
 	return (
-		<Layout title='Add New Event'>
+		<Layout title='Edit Event'>
 			<Link href='/events'>Go Back</Link>
 			<h1>Add Events</h1>
 			<ToastContainer />
@@ -104,7 +106,7 @@ export default function AddEventpage() {
 							type='date'
 							name='date'
 							id='date'
-							value={values.date}
+							value={moment(values.date).format('yyyy-MM-DD')}
 							onChange={handleInputChange}
 						/>
 					</div>
@@ -130,8 +132,20 @@ export default function AddEventpage() {
 					></textarea>
 				</div>
 
-				<input type='submit' value='Add Event' className='btn' />
+				<input type='submit' value='Update Event' className='btn' />
 			</form>
 		</Layout>
 	);
+}
+
+export async function getServerSideProps({params: {id}}){
+    
+    const res = await fetch(`${API_URL}/events/${id}`)
+    const evt = await res.json()
+
+    return{
+        props:{
+            evt
+        }
+    }
 }
