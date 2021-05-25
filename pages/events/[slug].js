@@ -5,12 +5,27 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FaPencilAlt, FaTimes } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function EventPage({ evt }) {
 	const router = useRouter();
 
-	const deleteEvent = ()=>{
+	const deleteEvent =async (e)=>{
 
+		if(confirm('Are you sure?')){
+			const res = await fetch(`${API_URL}/events/${evt.id}`,{
+				method: 'DELETE'
+			})
+
+			const data = res.json()
+
+			if(!res.ok){
+				toast.error(data.message)
+			}else{
+				router.push('/events')
+			}
+		}
 	}
 	return (
 		<Layout>
