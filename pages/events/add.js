@@ -34,14 +34,13 @@ export default function AddEventpage() {
 			},
 			body: JSON.stringify(values)
 		})
-
+		console.log(res);
 		if(!res.ok){
 			toast.error('Something went wrong')
 		}else{
 			const evt = await res.json()
 			router.push(`/events/${evt.slug}`)
 		}
-		console.log(evt);
 	};
 
 	const handleInputChange = (e) => {
