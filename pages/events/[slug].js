@@ -11,37 +11,35 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function EventPage({ evt }) {
 	const router = useRouter();
 
-	const deleteEvent =async (e)=>{
+	const deleteEvent = async (e) => {
+		if (confirm('Are you sure?')) {
+			const res = await fetch(`${API_URL}/events/${evt.id}`, {
+				method: 'DELETE',
+			});
 
-		if(confirm('Are you sure?')){
-			const res = await fetch(`${API_URL}/events/${evt.id}`,{
-				method: 'DELETE'
-			})
+			const data = res.json();
 
-			const data = res.json()
-
-			if(!res.ok){
-				toast.error(data.message)
-			}else{
-				router.push('/events')
+			if (!res.ok) {
+				toast.error(data.message);
+			} else {
+				router.push('/events');
 			}
 		}
-	}
+	};
 	return (
 		<Layout>
 			<div className={styles.event}>
-				 <div className={styles.controls}>
+				<div className={styles.controls}>
 					<Link href={`/events/edit/${evt.id}`}>
 						<a>
 							<FaPencilAlt /> Edit Event
 						</a>
 					</Link>
-					
-						<a href='#' className={styles.delete} onClick={deleteEvent}>
-							<FaTimes /> Delete Event
-						</a>
-					
-				</div> 
+
+					<a href='#' className={styles.delete} onClick={deleteEvent}>
+						<FaTimes /> Delete Event
+					</a>
+				</div>
 
 				<span>
 					{new Date(evt.date).toLocaleDateString('en-IN')} at {evt.time}
