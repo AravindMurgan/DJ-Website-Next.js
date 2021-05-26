@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ImageUpload from '@/components/ImageUpload'
 
 export default function EditEventpage({ evt }) {
 	const [values, setValue] = useState({
@@ -162,7 +163,7 @@ export default function EditEventpage({ evt }) {
 			</div>
 
 			<Modal show={showModal} onClose={() => setShowModal(false)}>
-				ImageUpload
+				<ImageUpload />
 			</Modal>
 		</Layout>
 	);
