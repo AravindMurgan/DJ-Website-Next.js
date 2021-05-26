@@ -1,17 +1,17 @@
 import Layout from '@/components/Layout';
 import { API_URL } from '@/config/index';
 import styles from '@/styles/Form.module.css';
+import moment from 'moment';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import moment from 'moment'
 
-export default function EditEventpage({evt}) {
-  
+export default function EditEventpage({ evt }) {
 	const [values, setValue] = useState({
-		name:evt.name ,
+		name: evt.name,
 		performers: evt.performers,
 		venue: evt.venue,
 		address: evt.address,
@@ -19,29 +19,35 @@ export default function EditEventpage({evt}) {
 		time: evt.time,
 		description: evt.description,
 	});
+
+	const [imagePreview, setImagepreview] = useState(
+		evt.image ? evt.image.formats.thumbnail.url : null
+	);
 	const router = useRouter();
 
 	const handleSubmit = async (e) => {
-		e.preventDefault()
-		const hasEmptyFields = Object.values(values).some(element=> element === '' )
+		e.preventDefault();
+		const hasEmptyFields = Object.values(values).some(
+			(element) => element === ''
+		);
 
-		if(hasEmptyFields){
-			toast.error('Please fill all Fields')
+		if (hasEmptyFields) {
+			toast.error('Please fill all Fields');
 		}
 
-		const res = await fetch(`${API_URL}/events/${evt.id}`,{
-			method:'PUT',
-			headers:{
-				'Content-Type':'application/json'
+		const res = await fetch(`${API_URL}/events/${evt.id}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(values)
-		})
+			body: JSON.stringify(values),
+		});
 		console.log(res);
-		if(!res.ok){
-			toast.error('Something went wrong')
-		}else{
-			const evt = await res.json()
-			router.push(`/events/${evt.slug}`)
+		if (!res.ok) {
+			toast.error('Something went wrong');
+		} else {
+			const evt = await res.json();
+			router.push(`/events/${evt.slug}`);
 		}
 	};
 
@@ -134,18 +140,28 @@ export default function EditEventpage({evt}) {
 
 				<input type='submit' value='Update Event' className='btn' />
 			</form>
+
+			{imagePreview ? (
+				<div>
+					<h2>Event Image</h2>
+					<Image src={imagePreview} width={170} height={100} />
+				</div>
+			) : (
+				<div>
+					<p>Image not uploaded</p>
+				</div>
+			)}
 		</Layout>
 	);
 }
 
-export async function getServerSideProps({params: {id}}){
-    
-    const res = await fetch(`${API_URL}/events/${id}`)
-    const evt = await res.json()
+export async function getServerSideProps({ params: { id } }) {
+	const res = await fetch(`${API_URL}/events/${id}`);
+	const evt = await res.json();
 
-    return{
-        props:{
-            evt
-        }
-    }
+	return {
+		props: {
+			evt,
+		},
+	};
 }
