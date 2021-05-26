@@ -151,6 +151,9 @@ export default function EditEventpage({ evt }) {
 					<p>Image not uploaded</p>
 				</div>
 			)}
+			<div>
+				<button className='btn btn-secondary' >Update Image</button>
+			</div>
 		</Layout>
 	);
 }
