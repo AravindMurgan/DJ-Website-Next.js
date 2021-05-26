@@ -152,7 +152,7 @@ export default function EditEventpage({ evt }) {
 				</div>
 			)}
 			<div>
-				<button className='btn btn-secondary' >Update Image</button>
+				<button className='btn btn-secondary' >Update Image </button>
 			</div>
 		</Layout>
 	);
