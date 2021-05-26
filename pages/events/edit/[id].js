@@ -63,6 +63,11 @@ export default function EditEventpage({ evt }) {
 			[name]: value,
 		});
 	};
+
+	const imageUploaded= ()=>{
+		console.log('image uploaded');
+	}
+
 	return (
 		<Layout title='Edit Event'>
 			<Link href='/events'>Go Back</Link>
@@ -163,7 +168,7 @@ export default function EditEventpage({ evt }) {
 			</div>
 
 			<Modal show={showModal} onClose={() => setShowModal(false)}>
-				<ImageUpload />
+				<ImageUpload  evtId={evt.id} imageUploaded={imageUploaded} />
 			</Modal>
 		</Layout>
 	);
