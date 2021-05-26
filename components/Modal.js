@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom'
 
 export default function Modal({ show, onClose, children, title }) {
 	const [isBrowser, setIsBrowser] = useState(false);
-
 	useEffect(() => {
 		setIsBrowser(true);
 	}, []);
