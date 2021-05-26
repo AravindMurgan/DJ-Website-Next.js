@@ -4,7 +4,7 @@
 
 This project is done for learning purpose from brad's course, check it out if you are interested [Next.js Udemy course](https://www.udemy.com/course/nextjs-dev-to-deployment)
 
-![DJ Events](/public/images/screen.png 'DJ Events')
+![DJ Events](/public/images/sample/event1.jpg 'DJ Events')
 
 # Usage
 
