@@ -1,4 +1,5 @@
 import Layout from '@/components/Layout';
+import Modal from '@/components/Modal';
 import { API_URL } from '@/config/index';
 import styles from '@/styles/Form.module.css';
 import moment from 'moment';
@@ -23,6 +24,9 @@ export default function EditEventpage({ evt }) {
 	const [imagePreview, setImagepreview] = useState(
 		evt.image ? evt.image.formats.thumbnail.url : null
 	);
+
+	const [showModal, setShowModal] = useState(true);
+
 	const router = useRouter();
 
 	const handleSubmit = async (e) => {
@@ -152,8 +156,14 @@ export default function EditEventpage({ evt }) {
 				</div>
 			)}
 			<div>
-				<button className='btn btn-secondary' >Update Image </button>
+				<button onClick={()=>setShowModal(true)} className='btn btn-secondary'>
+					Update Image{' '}
+				</button>
 			</div>
+
+			<Modal show={showModal} onClose={() => setShowModal(false)}>
+				ImageUpload
+			</Modal>
 		</Layout>
 	);
 }
