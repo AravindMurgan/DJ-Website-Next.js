@@ -1,3 +1,4 @@
+import ImageUpload from '@/components/ImageUpload';
 import Layout from '@/components/Layout';
 import Modal from '@/components/Modal';
 import { API_URL } from '@/config/index';
@@ -9,7 +10,6 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ImageUpload from '@/components/ImageUpload'
 
 export default function EditEventpage({ evt }) {
 	const [values, setValue] = useState({
@@ -64,9 +64,12 @@ export default function EditEventpage({ evt }) {
 		});
 	};
 
-	const imageUploaded= ()=>{
-		console.log('image uploaded');
-	}
+	const imageUploaded = async (e) => {
+		const res = await fetch(`${API_URL}/events/${evt.id}`);
+		const data = await res.json();
+		setImagepreview(data.image.formats.thumbnail.url);
+		setShowModal(false);
+	};
 
 	return (
 		<Layout title='Edit Event'>
@@ -162,13 +165,16 @@ export default function EditEventpage({ evt }) {
 				</div>
 			)}
 			<div>
-				<button onClick={()=>setShowModal(true)} className='btn btn-secondary'>
+				<button
+					onClick={() => setShowModal(true)}
+					className='btn btn-secondary'
+				>
 					Update Image{' '}
 				</button>
 			</div>
 
 			<Modal show={showModal} onClose={() => setShowModal(false)}>
-				<ImageUpload  evtId={evt.id} imageUploaded={imageUploaded} />
+				<ImageUpload evtId={evt.id} imageUploaded={imageUploaded} />
 			</Modal>
 		</Layout>
 	);
