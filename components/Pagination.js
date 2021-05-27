@@ -1,5 +1,6 @@
 import { PER_PAGE } from '@/config/index';
 import Link from 'next/link';
+import EventsItem from '@/components/EventsItem';
 
 export default function Pagination({ events, page, total }) {
     const lastpage = Math.ceil(total / PER_PAGE);
