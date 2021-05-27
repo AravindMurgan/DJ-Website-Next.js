@@ -26,7 +26,7 @@ export default function EditEventpage({ evt }) {
 		evt.image ? evt.image.formats.thumbnail.url : null
 	);
 
-	const [showModal, setShowModal] = useState(true);
+	const [showModal, setShowModal] = useState(false);
 
 	const router = useRouter();
 
