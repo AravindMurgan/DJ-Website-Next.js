@@ -17,12 +17,21 @@ export default function EventsPage({ events }) {
 }
 
 export async function getServerSideProps({ query: { page = 1 } }) {
-	const res = await fetch(
-		`${API_URL}/events?_sort=date:ASC&_limit=${PER_PAGE}`
+	
+	//calculate start page//
+	const start = +page === 1 ? 0 : (+page-1)* PER_PAGE
+	
+	//total Events//
+	const totalRes = await fetch(`${API_URL}/events/count`)
+	const total = totalRes.json()
+
+	//Fetch Events
+	const eventRes = await fetch(
+		`${API_URL}/events?_sort=date:ASC&_limit=${PER_PAGE}&_start=${start}`
 	);
-	const events = await res.json();
+	const events = await eventRes.json();
 
 	return {
-		props: { events },
+		props: { events,page: +page ,total },
 	};
 }
