@@ -1,10 +1,10 @@
 import EventsItem from '@/components/EventsItem';
 import Layout from '@/components/Layout';
-import { API_URL } from '@/config/index';
+import { API_URL, PER_PAGE } from '@/config/index';
 import { useRouter } from 'next/router';
 
 export default function EventsPage({ events }) {
-	const router = useRouter()
+	const router = useRouter();
 	return (
 		<Layout>
 			<h1> Events</h1>
@@ -16,10 +16,10 @@ export default function EventsPage({ events }) {
 	);
 }
 
-export async function getServerSideProps({query:{page=1}}) {
-	
-	const res = await fetch(`${API_URL}/events?_sort=date:ASC`);
-	console.log(res);
+export async function getServerSideProps({ query: { page = 1 } }) {
+	const res = await fetch(
+		`${API_URL}/events?_sort=date:ASC&_limit=${PER_PAGE}`
+	);
 	const events = await res.json();
 
 	return {
