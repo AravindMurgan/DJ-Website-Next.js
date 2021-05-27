@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 
 export default function EventsPage({ events }) {
 	const router = useRouter()
-	console.log(router);
 	return (
 		<Layout>
 			<h1> Events</h1>
@@ -17,13 +16,13 @@ export default function EventsPage({ events }) {
 	);
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps({query:{page=1}}) {
+	
 	const res = await fetch(`${API_URL}/events?_sort=date:ASC`);
 	console.log(res);
 	const events = await res.json();
 
 	return {
 		props: { events },
-		revalidate: 1,
 	};
 }
