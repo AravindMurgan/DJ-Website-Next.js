@@ -3,7 +3,8 @@ import Layout from '@/components/Layout';
 import { API_URL, PER_PAGE } from '@/config/index';
 import { useRouter } from 'next/router';
 
-export default function EventsPage({ events }) {
+export default function EventsPage({ events,page,total }) {
+	const lastpage = Math.ceil(totla/PER_PAGE)
 	const router = useRouter();
 	return (
 		<Layout>
@@ -12,6 +13,13 @@ export default function EventsPage({ events }) {
 			{events.map((evt) => (
 				<EventsItem key={evt.id} evt={evt} />
 			))}
+
+			{page > 1 && (
+				<Link href={`/events?page=${page -1}`} >
+					<a className='btn-secondary' >Prev</a>
+				</Link>
+			) }
+
 		</Layout>
 	);
 }
