@@ -33,9 +33,15 @@ export default function Header() {
 							</li>
 
                             <li>
-								<Link href='/account/logout'>
-									<a className='btn-secondary btn-icon' > <FaSignOutAlt/> Logout</a>
+								<Link href='/account/dashboard'>
+									<a>Dashboard</a>
 								</Link>
+							</li>
+
+                            <li>
+								<button  className='btn-secondary btn-icon'  onClick={()=> logout()} >
+									 <FaSignOutAlt/> Logout
+								</button>
 							</li>
 
 						</>
