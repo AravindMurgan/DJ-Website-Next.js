@@ -4,8 +4,10 @@ import { API_URL } from '@/config/index'
 
 const AuthContext = createContext()
 
-export const AuthProvider = ()=>{
-    const [user,setUser]=useState(null)
+export const AuthProvider = ({children,})=>{
+    const [user,setUser]=useState({
+        name: 'Aravind'
+    })
     const[error,setError]=useState(null)
 
     //Regitser//
@@ -28,7 +30,7 @@ export const AuthProvider = ()=>{
 
 
     return ( 
-        <AuthContext.Provider value={user,error,register,login,logout,checkUserLoggedIn} >
+        <AuthContext.Provider value={{user,error,register,login,logout,checkUserLoggedIn}} >
             {children}
         </AuthContext.Provider>
     )
