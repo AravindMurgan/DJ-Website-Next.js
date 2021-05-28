@@ -4,7 +4,7 @@ import { API_URL, PER_PAGE } from '@/config/index';
 
 export default function EventsPage({ events, page, total }) {
 	return (
-		<Layout>ls
+		<Layout>
 
 			<Pagination events={events} page={page} total={total} />
 		</Layout>
