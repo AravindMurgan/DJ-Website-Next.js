@@ -8,6 +8,31 @@ export const AuthProvider = ()=>{
     const [user,setUser]=useState(null)
     const[error,setError]=useState(null)
 
-    
+    //Regitser//
+    const register = (user)=>{
+        console.log(user);
+    }
+    //Login//
+    const login = ({email:identifier,password})=>{
+        console.log({identifier,password});
+    }
+    //Logout//
+    const logout = ()=>{
+        console.log('Logout');
+    }
+
+    //Check user logged in//
+    const checkUserLoggedIn=()=>{
+        console.log('Logged In');
+    }
+
+
+    return ( 
+        <AuthContext.Provider value={user,error,register,login,logout,checkUserLoggedIn} >
+            {children}
+        </AuthContext.Provider>
+    )
 
 }
+
+export default AuthContext
