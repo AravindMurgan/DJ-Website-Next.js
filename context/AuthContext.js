@@ -28,6 +28,13 @@ export const AuthProvider = ({children,})=>{
 
         const data = await res.json()
         console.log(data);
+
+        if(res.ok){
+            setUser(data.message)
+        }else{
+            setError(data.message)
+            setError(null)
+        }
     }
     //Logout//
     const logout = ()=>{
