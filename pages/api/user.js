@@ -5,6 +5,7 @@ export default async (req, res) => {
 	if (req.method === 'GET') {
 		if (!req.headers.cookie) {
 			res.status(403).json({ message: 'Not Authorized' });
+			return;
 		}
 
 		const { token } = cookie.parse(req.headers.cookie);
@@ -19,7 +20,7 @@ export default async (req, res) => {
 		const user = await strapiRes.json();
 
 		if (strapiRes.ok) {
-			res.status.json({ user });
+			res.status(200).json({ user });
 		} else {
 			res.status(403).json({ message: 'User Forbidden' });
 		}
