@@ -9,8 +9,7 @@ export const AuthProvider = ({children,})=>{
     const[error,setError]=useState(null)
 
     //Regitser//
-    const register = (user)=>{
-        console.log(user);
+    const register = (user)=>{  
     }
     //Login//
     const login = async ({email:identifier,password})=>{
@@ -27,13 +26,14 @@ export const AuthProvider = ({children,})=>{
         })
 
         const data = await res.json()
-        console.log(data);
+
 
         if(res.ok){
-            setUser(data.message)
+            setUser(data.user)
         }else{
             setError(data.message)
             setError(null)
+            console.log('hey something is wrong');
         }
     }
     //Logout//

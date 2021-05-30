@@ -1,22 +1,23 @@
 import { API_URL } from '@/config/index';
+import cookie from 'cookie';
 
 export default async (req, res) => {
 	if (req.method === 'POST') {
-		const { identifer, password } = req.body;
-
+		const { identifier, password } = req.body;
+	
 		const strapiRes = await fetch(`${API_URL}/auth/local`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				identifer,
+				identifier,
 				password,
 			}),
 		});
 
 		const data = await strapiRes.json();
-
+		
 		if (strapiRes.ok) {
 			// @todo- setCookie//
 			res.setHeader(

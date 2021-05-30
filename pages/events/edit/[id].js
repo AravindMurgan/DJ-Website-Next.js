@@ -47,7 +47,6 @@ export default function EditEventpage({ evt }) {
 			},
 			body: JSON.stringify(values),
 		});
-		console.log(res);
 		if (!res.ok) {
 			toast.error('Something went wrong');
 		} else {
@@ -180,10 +179,10 @@ export default function EditEventpage({ evt }) {
 	);
 }
 
-export async function getServerSideProps({ params: { id } }) {
+export async function getServerSideProps({ params: { id },req }) {
 	const res = await fetch(`${API_URL}/events/${id}`);
 	const evt = await res.json();
-
+	console.log(req.headers.cookie);
 	return {
 		props: {
 			evt,
