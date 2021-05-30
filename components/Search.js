@@ -6,7 +6,7 @@ import { useState } from 'react'
 export default function Search() {
     const [term,setTerm]=useState('');
     const router = useRouter()
-    console.log(router);
+
     const handleSubmit= (e)=>{
         e.preventDefault()
         router.push(`/events/search?term=${term}`)
