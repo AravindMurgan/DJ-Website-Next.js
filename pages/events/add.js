@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 
-export default function AddEventpage() {
+export default function AddEventpage({token}) {
 	const [values, setValue] = useState({
 		name: '',
 		performers: '',
@@ -33,12 +33,18 @@ export default function AddEventpage() {
 		const res = await fetch(`${API_URL}/events/`,{
 			method:'POST',
 			headers:{
-				'Content-Type':'application/json'
+				'Content-Type':'application/json',
+				Authorization: `Bearer ${token}`
 			},
 			body: JSON.stringify(values)
 		})
 		console.log(res);
 		if(!res.ok){
+			if(res.status === 401 || res.status === 403){
+				toast.error('Unauthorized')
+				return
+			}
+
 			toast.error('Something went wrong')
 		}else{
 			const evt = await res.json()
@@ -140,5 +146,11 @@ export default function AddEventpage() {
 }
 
 export async function getServerSideProps({req}){
-	const {token} = 
+	const {token} = parseCookies(req)
+
+	return{
+		props:{
+			token
+		}
+	}
 }

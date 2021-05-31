@@ -2,6 +2,7 @@ import ImageUpload from '@/components/ImageUpload';
 import Layout from '@/components/Layout';
 import Modal from '@/components/Modal';
 import { API_URL } from '@/config/index';
+import { parseCookies } from '@/helpers/index';
 import styles from '@/styles/Form.module.css';
 import moment from 'moment';
 import Image from 'next/image';
@@ -11,7 +12,7 @@ import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function EditEventpage({ evt }) {
+export default function EditEventpage({ evt,token }) {
 	const [values, setValue] = useState({
 		name: evt.name,
 		performers: evt.performers,
@@ -44,6 +45,7 @@ export default function EditEventpage({ evt }) {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`
 			},
 			body: JSON.stringify(values),
 		});
@@ -73,7 +75,7 @@ export default function EditEventpage({ evt }) {
 	return (
 		<Layout title='Edit Event'>
 			<Link href='/events'>Go Back</Link>
-			<h1>Add Events</h1>
+			<h1>Edit Event</h1>
 			<ToastContainer />
 			<form onSubmit={handleSubmit} className={styles.form}>
 				<div className={styles.grid}>
@@ -180,12 +182,15 @@ export default function EditEventpage({ evt }) {
 }
 
 export async function getServerSideProps({ params: { id },req }) {
+
+	const {token} = parseCookies(req)
+
 	const res = await fetch(`${API_URL}/events/${id}`);
 	const evt = await res.json();
-	console.log(req.headers.cookie);
 	return {
 		props: {
 			evt,
+			token
 		},
 	};
 }
