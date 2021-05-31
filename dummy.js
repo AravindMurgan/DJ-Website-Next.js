@@ -1,91 +1,50 @@
-import { NEXT_URL } from '@/config/index';
-import { useRouter } from 'next/router';
-import { createContext, useEffect, useState } from 'react';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import Geocode from 'react-geocode';
+import ReactMapGl, { Marker } from 'react-map-gl';
 
-const AuthContext = createContext();
+export default function EventMap({ evt }) {
+	const [lat, setLat] = useState(null);
+	const [lng, setLng] = useState(null);
+	const [loading, setLoading] = useState(true);
+	const [viewport, setViewport] = useState({
+		latitude: 40.712772,
+		longitude: -73.935242,
+		width: '100%',
+		height: '500px',
+		zoom: 12,
+	});
 
-export const AuthProvider = ({ children }) => {
-	const [user, setUser] = useState(null);
-	const [error, setError] = useState(null);
-
-	const router = useRouter();
-
-	useEffect(() => checkUserLoggedIn(), []);
-
-	// Register user
-	const register = async (user) => {
-		const res = await fetch(`${NEXT_URL}/api/register`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
+	useEffect(() => {
+		// Get latitude & longitude from address.
+		Geocode.fromAddress(evt.address).then(
+			(response) => {
+				const { lat, lng } = response.results[0].geometry.location;
+				setLat(lat);
+				setLng(lng);
+				setViewport({ ...viewport, latitude: lat, longitude: lng });
+				setLoading(false);
 			},
-			body: JSON.stringify(user),
-		});
+			(error) => {
+				console.error(error);
+			}
+		);
+	}, []);
 
-		const data = await res.json();
+	Geocode.setApiKey(process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY);
 
-		if (res.ok) {
-			setUser(data.user);
-			router.push('/account/dashboard');
-		} else {
-			setError(data.message);
-			setError(null);
-		}
-	};
-
-	// Login user
-	const login = async ({ email: identifier, password }) => {
-		const res = await fetch(`${NEXT_URL}/api/login`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				identifier,
-				password,
-			}),
-		});
-
-		const data = await res.json();
-
-		if (res.ok) {
-			setUser(data.user);
-			router.push('/account/dashboard');
-		} else {
-			setError(data.message);
-			setError(null);
-		}
-	};
-
-	// Logout user
-	const logout = async () => {
-		const res = await fetch(`${NEXT_URL}/api/logout`, {
-			method: 'POST',
-		});
-
-		if (res.ok) {
-			setUser(null);
-			router.push('/');
-		}
-	};
-
-	// Check if user is logged in
-	const checkUserLoggedIn = async (user) => {
-		const res = await fetch(`${NEXT_URL}/api/user`);
-		const data = await res.json();
-
-		if (res.ok) {
-			setUser(data.user);
-		} else {
-			setUser(null);
-		}
-	};
+	if (loading) return false;
 
 	return (
-		<AuthContext.Provider value={{ user, error, register, login, logout }}>
-			{children}
-		</AuthContext.Provider>
+		<ReactMapGl
+			{...viewport}
+			mapboxApiAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN}
+			onViewportChange={(vp) => setViewport(vp)}
+		>
+			<Marker key={evt.id} latitude={lat} longitude={lng}>
+				<Image src='/images/pin.svg' width={30} height={30} />
+			</Marker>
+		</ReactMapGl>
 	);
-};
-
-export default AuthContext;
+}
