@@ -5,12 +5,10 @@ import styles from '@/styles/Form.module.css';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-
-export default function AddEventpage({token}) {
+export default function AddEventpage({ token }) {
 	const [values, setValue] = useState({
 		name: '',
 		performers: '',
@@ -23,32 +21,34 @@ export default function AddEventpage({token}) {
 	const router = useRouter();
 
 	const handleSubmit = async (e) => {
-		e.preventDefault()
-		const hasEmptyFields = Object.values(values).some(element=> element === '' )
+		e.preventDefault();
+		const hasEmptyFields = Object.values(values).some(
+			(element) => element === ''
+		);
 
-		if(hasEmptyFields){
-			toast.error('Please fill all Fields')
+		if (hasEmptyFields) {
+			toast.error('Please fill all Fields');
 		}
 
-		const res = await fetch(`${API_URL}/events/`,{
-			method:'POST',
-			headers:{
-				'Content-Type':'application/json',
-				Authorization: `Bearer ${token}`
+		const res = await fetch(`${API_URL}/events`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
 			},
-			body: JSON.stringify(values)
-		})
+			body: JSON.stringify(values),
+		});
 		console.log(res);
-		if(!res.ok){
-			if(res.status === 401 || res.status === 403){
-				toast.error('Unauthorized')
-				return
+		if (!res.ok) {
+			if (res.status === 401 || res.status === 403) {
+				toast.error('Unauthorized');
+				return;
 			}
 
-			toast.error('Something went wrong')
-		}else{
-			const evt = await res.json()
-			router.push(`/events/${evt.slug}`)
+			toast.error('Something went wrong');
+		} else {
+			const evt = await res.json();
+			router.push(`/events/${evt.slug}`);
 		}
 	};
 
@@ -145,12 +145,12 @@ export default function AddEventpage({token}) {
 	);
 }
 
-export async function getServerSideProps({req}){
-	const {token} = parseCookies(req)
+export async function getServerSideProps({ req }) {
+	const { token } = parseCookies(req);
 
-	return{
-		props:{
-			token
-		}
-	}
+	return {
+		props: {
+			token,
+		},
+	};
 }
