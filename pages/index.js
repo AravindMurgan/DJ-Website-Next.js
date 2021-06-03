@@ -28,6 +28,5 @@ export async function getStaticProps() {
 	return {
 		props: { events },
 		revalidate: 1,
-		fallback: true,
 	};
 }
