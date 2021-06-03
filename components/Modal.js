@@ -1,7 +1,8 @@
-import { body, header, modal, overlay } from '@/styles/Modal.module.css';
+import styles from '@/styles/Modal.module.css';
 import { useEffect, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import ReactDOM from 'react-dom'
+imp
 
 export default function Modal({ show, onClose, children, title }) {
 	const [isBrowser, setIsBrowser] = useState(false);
@@ -15,15 +16,15 @@ export default function Modal({ show, onClose, children, title }) {
     }
 
 	const modelContent = show ? (
-		<div className={overlay}>
-			<div className={modal}>
-				<div className={header}>
+		<div className={styles.overlay}>
+			<div className={styles.modal}>
+				<div className={styles.header}>
 					<a href='#' onClick={handleClose}>
 						<FaTimes />
 					</a>
 				</div>
 				{title && <div>{title}</div>}
-				<div className={body}>{children}</div>
+				<div className={styles.body}>{children}</div>
 			</div>
 		</div>
 	) : null;
