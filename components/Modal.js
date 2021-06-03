@@ -2,7 +2,6 @@ import styles from '@/styles/Modal.module.css';
 import { useEffect, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import ReactDOM from 'react-dom'
-imp
 
 export default function Modal({ show, onClose, children, title }) {
 	const [isBrowser, setIsBrowser] = useState(false);
